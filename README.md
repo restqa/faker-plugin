@@ -4,11 +4,12 @@
 
 ### Introduction
 
-Are you not fed up John Doe ? or reusing every time the same information for you test data ?
-I personally want to enable more exploration on my test scenario, how your product will react on the production ?
-The best way to answer to this question is to have test scenario that are testing your product with different data every time.
-And this exactly what this plugin is about...
-It will extend the RestQA capability to help to use fake data on your scenario.
+Are you not fed up John Doe ? or reusing every time the same information for your test data ? How your product will react on the production with a different real data?
+
+The best way to answer to the question is to have test scenario that are testing your product with different data each time.
+
+This is close to exploration testing... this exactly how this plugin want to help you.
+It will extend the RestQA capability in order to generate fake data on your scenario.
 
 This plugins is based on the [faker.js](https://github.com/Marak/faker.js) library
 
@@ -35,7 +36,7 @@ Then the response body at "user.firstname" should not be equal to {{ firstName }
 
 During the execution the all the steps containing `{{ firtName }}` will be updated to include the generated value from the initial step.
 
-[Check the full list of step definition available](./steps-catalog.md)
+[Check the full list of step definition available](./docs/steps-catalog.md)
 
 
 ### 2. On the fly generation
@@ -175,7 +176,7 @@ Run your Spec
 
 ## Getting To Know RestQA 🦏
 
-🦏 [RestQA](https://restqa.io) is an Open Source Test Automation Framework.
+[RestQA](https://restqa.io) is an Open Source Test Automation Framework.
 
 > "With Great Power Comes Great Responsibility"
 
