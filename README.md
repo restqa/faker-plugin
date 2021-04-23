@@ -131,7 +131,7 @@ npm install @restqa/faker-plugin cucumber
 Using yarn:
 
 ```
-yarn add faker-plugin cucumber
+yarn add @restqa/faker-plugin cucumber
 ```
 
 Then you will need to create or update your world.js file:
@@ -146,7 +146,7 @@ const {
   setWorldConstructor
 } = require('cucumber')
 
-const Faker-plugin = require('faker-plugin')
+const FakerPlugin = require('faker-plugin')
 
 const config = {
   name: 'local',
@@ -158,7 +158,7 @@ const config = {
   prefix: 'faker'
 }
 
-const instance = new Faker-plugin(config)
+const instance = new FakerPlugin(config)
 
 instance.setParameterType(defineParameterType)
 instance.setSteps({ Given, When, Then })
