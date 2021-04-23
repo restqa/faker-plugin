@@ -22,7 +22,7 @@ module.exports = [
     * Define the locale to use during the fake data generation.
     * List of language available [here](https://github.com/Marak/Faker.js#Localization)
     *
-    * @category language
+    * @category Language
     *
     * @example
     * Given I use the "fr" language to generate fake data
@@ -44,7 +44,7 @@ module.exports = [
     * ### Given I generate a fake data for {string} and store it into the dataset as {string}
     * Generate a fake data and store it into the dataset in order to use it into an other step definition
     *
-    * @category generate
+    * @category Generate
     *
     * @example
     * Given I generate a fake data for "name.firstName" and store it into the dataset as "firstName"
