@@ -52,7 +52,7 @@ Example:
 Then the response body at "user.firstname" should not be equal to {{ faker.name.firstName }}
 ```
 
-While we `faker.name.firstName` is refering the to property `name.firstName` from the [Faker.js](https://github.com/Marak/faker.js) library. ([full list properties available](https://github.com/Marak/faker.js#api-methods))
+While `faker.name.firstName` is refering the to property `name.firstName` from the [Faker.js](https://github.com/Marak/faker.js) library. ([full list properties available](https://github.com/Marak/faker.js#api-methods))
 
 ### Quick demo
 
