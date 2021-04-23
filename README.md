@@ -15,6 +15,8 @@ This plugins is based on the [faker.js](https://github.com/Marak/faker.js) libra
 
 ## Usage
 
+
+
 The plugin is providing 2 capabilities:
 
 ### 1. Step definition
@@ -51,6 +53,11 @@ Then the response body at "user.firstname" should not be equal to {{ faker.name.
 ```
 
 While we `faker.name.firstName` is refering the to property `name.firstName` from the [Faker.js](https://github.com/Marak/faker.js) library. ([full list properties available](https://github.com/Marak/faker.js#api-methods))
+
+### Quick demo
+
+[Example](./example)
+
 
 
 ## Getting Started
