@@ -4,16 +4,16 @@ In order to undertand better the best way to write scenario, you should first be
 
 ## Dataset
 
-On top of adding step definition this plugin is adding an extra capability to the dataset.
+On top of adding step definition this plugin will attach extra capabilities to the dataset.
 
 
-### Generate a fake data on the fly generation
+### Generate a fake data on the fly
 
-If you have to deal with a lot of fake data, it will be inconvenient to multiple create step definition as share above.
-This is why you could also generate your fake data on the fly, by using the dynamic data synthax.
+If you have to deal with a lot of fake data, it will be inconvenient the step definition included in this plugin.
+This is why you can generate your fake data on the fly as well. It will be using the dynamic data synthax.
 
-As you know you can interact with the dataset using the pattern `{{ firstName }}` in order to print the `firstName` variable.
-Then if you add the prefix `faker` you will be able to access directly to the Faker library properties.
+As you know you can interact with the dataset using the pattern `{{ firstName }}` in order to print the `firstName` variable, and so on...
+Then by using the same pattern and you attach the prefix `faker` you will be able to access directly to the Faker library properties.
 
 Example: 
 
