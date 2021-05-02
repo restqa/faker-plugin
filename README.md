@@ -6,11 +6,11 @@
 
 Are you not fed up of using John Doe in your test automation? 😆 
 
-Or What will be the behavior of your product  on the production while using real data?
+Or What will be the behavior of your product on the production while using real data?
 
-Thjs a good question right? And The best way to answer to it is to start thinking of having test scenario that are using different data each time.
+It's a good question right? The best way to answer is to start thinking of having test scenario that are using different data each time.
 
-This should help you on doint more exploration testing... And this exactly how this plugin want to help you.
+This should help you on doing more exploration testing... It's exactly how this plugin want to help you.
 
 Once installed this plugin will extend the RestQA capability in order to generate fake data on your scenario.
 
@@ -23,7 +23,7 @@ The plugin is providing 2 capabilities:
 
 ### 1. Step definition
 
-A few built-in step definition will be enabled while using the plugin
+A few built-in step definition can be enabled while using the plugin
 
 Example:
 
@@ -31,21 +31,21 @@ Example:
 Given I generate a fake data for "name.firstName" and store it into the dataset as "firstName"
 ```   
 
-While we `name.firstName` is refering the to property `name.firstName` of the [faker.js](https://github.com/Marak/faker.js) library. ([full list properties available](https://github.com/Marak/faker.js#api-methods))
+While we `name.firstName` is refering to the property `name.firstName` of the [faker.js](https://github.com/Marak/faker.js) library. ([full list properties available](https://github.com/Marak/faker.js#api-methods))
 The step above will create a new data into the dataset named "firstName" in order to use it in another step like : 
 
 ```gherkin
 Then the response body at "user.firstname" should not be equal to {{ firstName }}
 ```
 
-During the execution the all the steps containing `{{ firtName }}` will be updated to include the generated value from the initial step.
+During the execution of all the steps containing `{{ firtName }}` will be updated to include the generated value from the initial step.
 
 [Check the full list of step definition available](./docs/steps-catalog.md)
 
 
 ### 2. On the fly generation
 
-If you have to deal with a lot of fake data, it will be inconvenient to multiple create step definition as share above.
+If you need to deal with a lot of fake data, it can be inconvenient to multiple create step definition as share above.
 This is why you could also generate your fake data on the fly, by using the dynamic data synthax.
 
 Example: 
