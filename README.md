@@ -120,20 +120,20 @@ environments:
 #### Requirements
 
  * Node.js >= 12
- * Cucumber >= 6.0.5
+ * Cucumber >= 7.3.0
 
 #### Installation
 
 Using npm:
 
 ```
-npm install @restqa/faker-plugin cucumber
+npm install @restqa/faker-plugin @cucumber/cucumber
 ```
 
 Using yarn:
 
 ```
-yarn add @restqa/faker-plugin cucumber
+yarn add @restqa/faker-plugin @cucumber/cucumber
 ```
 
 Then you will need to create or update your world.js file:
@@ -146,7 +146,7 @@ const {
   Given, When, Then,
   defineParameterType,
   setWorldConstructor
-} = require('cucumber')
+} = require('@cucumber/cucumber')
 
 const FakerPlugin = require('faker-plugin')
 
