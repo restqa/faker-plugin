@@ -34,7 +34,7 @@
     "jsdoc-to-markdown": "^6.0.1"
   },
   "dependencies": {
-    "@restqa/restqa-plugin-bootstrap": "0.0.4",
+    "@restqa/restqa-plugin-bootstrap": "^0.1.0",
     "faker": "^5.5.3"
   },
   "eslintConfig": {
