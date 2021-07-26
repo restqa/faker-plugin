@@ -1,7 +1,7 @@
 const given = require('./handlers')
 
 /**
- * All the steps related to the Fakke data generation
+ * All the steps related to the Fake data generation
  *
  * @module Given
 */
