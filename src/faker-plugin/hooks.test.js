@@ -26,10 +26,8 @@ describe('#hooks', () => {
       const $this = new World({})
       const originalSetConfig = $this.setConfig
 
-      let spy
       jest.spyOn($this, 'setConfig').mockImplementation(obj => {
         originalSetConfig.call($this, obj)
-        spy = jest.spyOn($this.data, 'parse')
       })
 
       const Before = jest.fn(async fn => {
@@ -42,8 +40,6 @@ describe('#hooks', () => {
 
       Hooks(config, { Before, After: jest.fn() })
       expect($this.getConfig()).toEqual(config)
-      expect(spy.mock.calls[0][0]).toEqual({ name: 'scenario name' })
-      spy.mockRestore()
     })
   })
 
