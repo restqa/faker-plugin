@@ -1,4 +1,4 @@
-const { World, Data } = require('@restqa/restqa-plugin-bootstrap')
+const { World } = require('@restqa/restqa-plugin-bootstrap')
 const faker = require('faker')
 
 class PluginWorld extends World {
@@ -46,8 +46,7 @@ class PluginWorld extends World {
 
     faker.locale = config.locale || 'en'
 
-    this._data = this._data || new Data()
-    this._data.get = this.faker.overrideDataGet(config, this._data.get)
+    this.data.get = this.faker.overrideDataGet(config, this.data.get)
   }
 }
 
