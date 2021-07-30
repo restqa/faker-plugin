@@ -1,9 +1,6 @@
 module.exports = function (config, { Before, BeforeAll, After, AfterAll }) {
   Before(async function (scenario) {
     this.setConfig(config)
-    if (this.data && config.data) {
-      await this.data.parse(scenario)
-    }
   })
 
   After(function () {

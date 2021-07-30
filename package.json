@@ -2,7 +2,7 @@
   "name": "@restqa/faker-plugin",
   "main": "src/faker-plugin/index.js",
   "description": "Extension to extends RestQA capability in order Generate fake data for test scenarios",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "keywords": [
     "test automation",
     "restqa",
@@ -34,7 +34,7 @@
     "jsdoc-to-markdown": "^6.0.1"
   },
   "dependencies": {
-    "@restqa/restqa-plugin-bootstrap": "0.0.4",
+    "@restqa/restqa-plugin-bootstrap": "^0.1.0",
     "faker": "^5.5.3"
   },
   "eslintConfig": {
