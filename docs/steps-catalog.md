@@ -1,5 +1,5 @@
 <a name="module_Given"></a>
-All the steps related to the Fakke data generation
+All the steps related to the Fake data generation
 
 
 * [Given](#module_Given)
