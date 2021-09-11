@@ -15,7 +15,6 @@
   "scripts": {
     "pretest": "npm run doc",
     "doc": "jsdoc2md  --partial docs/support/scope.hbs --partial docs/support/header.hbs --files src/faker-plugin/steps/**/index.js > docs/steps-catalog.md",
-    "example": "cucumber-js --require ./example/setup.js ./example/ --publish-quiet",
     "lint": "eslint src",
     "test": "jest",
     "test:coverage": "jest --coverage",
@@ -34,7 +33,6 @@
     "jsdoc-to-markdown": "^6.0.1"
   },
   "dependencies": {
-    "@restqa/restqa-plugin-bootstrap": "^0.1.0",
     "faker": "^5.5.3"
   },
   "eslintConfig": {
