@@ -25,7 +25,7 @@ describe('Given handlers', () => {
 
       Plugin.hooks.before.call($this)
 
-      Given.defineVariable.call($this, 'name.firstName', 'firstName')
+      Given.defineVariable.call($this, "name.firstName", "firstName");
 
       const expectedName = spy.mock.results[0].value
       expect($this.data.get('{{ firstName }}')).toBe(expectedName)
@@ -45,10 +45,14 @@ describe('Given handlers', () => {
       }
       Plugin.hooks.before.call($this)
       expect(() => {
-        Given.defineVariable.call($this, 'name.fourstName', 'firstName')
-      }).toThrow(new Error('The property "name.fourstName" is not valid. Available list at https://github.com/Marak/Faker.js#api-methods'))
-    })
-  })
+        Given.defineVariable.call($this, "name.fourstName", "firstName");
+      }).toThrow(
+        new Error(
+          'The property "name.fourstName" is not valid. Available list at https://github.com/Marak/Faker.js#api-methods'
+        )
+      );
+    });
+  });
 
   describe('locale', () => {
     test('set the locale', () => {
@@ -81,8 +85,12 @@ describe('Given handlers', () => {
       }
       Plugin.hooks.before.call($this)
       expect(() => {
-        Given.locale.call($this, 'cn')
-      }).toThrow(new Error('The locale "cn" is not available please use the list from: https://github.com/Marak/faker.js#localization'))
-    })
-  })
-})
+        Given.locale.call($this, "cn");
+      }).toThrow(
+        new Error(
+          'The locale "cn" is not available please use the list from: https://github.com/Marak/faker.js#localization'
+        )
+      );
+    });
+  });
+});

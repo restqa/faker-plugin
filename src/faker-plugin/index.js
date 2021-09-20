@@ -43,5 +43,5 @@ module.exports = {
       }, `During the scenario faker has generated ${result.length} values for you`)
       this.attach(msg)
     }
-  }
-}
+  };
+};

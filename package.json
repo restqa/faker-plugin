@@ -16,6 +16,8 @@
     "pretest": "npm run doc",
     "doc": "jsdoc2md  --partial docs/support/scope.hbs --partial docs/support/header.hbs --files src/faker-plugin/steps/**/index.js > docs/steps-catalog.md",
     "lint": "eslint src",
+    "format": "prettier --check src",
+    "format:fix": "prettier --write src",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch --coverage",
@@ -24,6 +26,7 @@
   "devDependencies": {
     "@cucumber/cucumber": "^7.3.1",
     "eslint": "^7.20.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.3.5",
@@ -31,7 +34,8 @@
     "eslint-plugin-promise": "^5.1.0",
     "jest": "^26.6.3",
     "jest-runner-eslint": "^0.10.0",
-    "jsdoc-to-markdown": "^6.0.1"
+    "jsdoc-to-markdown": "^6.0.1",
+    "prettier": "^2.4.1"
   },
   "dependencies": {
     "@restqa/plugin": "0.0.2",
