@@ -18,7 +18,6 @@ This plugins is based on the [faker.js](https://github.com/Marak/faker.js) libra
 
 ## Usage
 
-
 The plugin is providing 2 capabilities:
 
 ### 1. Step definition
@@ -59,8 +58,6 @@ While `faker.name.firstName` is refering the to property `name.firstName` from t
 ### Quick demo
 
 [Example](./example)
-
-
 
 ## Getting Started
 
@@ -136,38 +133,7 @@ Using yarn:
 yarn add @restqa/faker-plugin @cucumber/cucumber
 ```
 
-Then you will need to create or update your world.js file:
-
-```
-//support/world.js
-
-const {
-  After, AfterAll, Before, BeforeAll,
-  Given, When, Then,
-  defineParameterType,
-  setWorldConstructor
-} = require('@cucumber/cucumber')
-
-const FakerPlugin = require('faker-plugin')
-
-const config = {
-  name: 'local',
-  data: {
-    startSymbol: '{[',
-    endSymbol: ']}'
-  },
-  locale: 'fr',
-  prefix: 'faker'
-}
-
-const instance = new FakerPlugin(config)
-
-instance.setParameterType(defineParameterType)
-instance.setSteps({ Given, When, Then })
-instance.setHooks({ Before, BeforeAll, After, AfterAll })
-
-setWorldConstructor(instance.getWorld())
-```
+Then Take a look at the [example folder](./example) to see the implementation
 
 Run your Spec
 

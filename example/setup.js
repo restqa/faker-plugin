@@ -1,29 +1,49 @@
-const {
-  After, AfterAll, Before, BeforeAll,
-  Given, When, Then,
-  defineParameterType,
-  setWorldConstructor
-} = require('@cucumber/cucumber')
+const cucumber = require('@cucumber/cucumber')
+const RestQAFaker = require('../src/index')
 
-const FakerPlugin = require('../src/faker-plugin')
 
-const config = {
-  name: 'local',
-  data: {
-    startSymbol: '{{',
-    endSymbol: '}}'
-  },
-  locale: 'fr',
-  prefix: 'faker'
+class World {
+
+  constructor({ attach }) {
+    this.attach = attach
+    this._data = {}
+  }
+
+  get data() {
+    return {
+      options: {
+        startSymbol: '}}',
+        endSymbol: '{{'
+      },
+      get: (key) => {
+        return this._data[key]
+      },
+      set: (key, val) => {
+        this._data[key] = val
+      },
+      addProcessor: () => {}
+    }
+  }
+
+  getConfig () {
+    return {
+      name: 'local',
+      url: 'https://jsonplaceholder.typicode.com',
+      performance: {
+        tool: 'artillery'
+      }
+    }
+  }
 }
 
-Then('my fake value is accessible through {string}', val => {})
-Then('my fake value is accessible through {data}', val => {})
+RestQAFaker._commit(cucumber, {})
 
-const instance = new FakerPlugin(config)
-
-instance.setParameterType(defineParameterType)
-instance.setSteps({ Given, When, Then })
-instance.setHooks({ Before, BeforeAll, After, AfterAll })
-
-setWorldConstructor(instance.getWorld())
+cucumber.defineParameterType({
+  regexp: /{{ (.*) }}/,
+  transformer: function (value) {
+    value = `{{ ${value} }}`
+    return this.data.get(value)
+  },
+  name: 'data'
+})
+cucumber.setWorldConstructor(World)
