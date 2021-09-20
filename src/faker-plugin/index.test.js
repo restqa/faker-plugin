@@ -1,76 +1,125 @@
-const mockInstance = {}
-
 beforeEach(() => {
   jest.resetModules()
-  mockInstance.getConfig = jest.fn().mockReturnValue({})
-  mockInstance.addGivenStep = jest.fn((step, fn, description, tags) => {
-    return mockInstance
-  })
-  mockInstance.addState = jest.fn((key, value) => {
-    return mockInstance
-  })
-  mockInstance.addBeforeHook = jest.fn((fn) => {
-    return mockInstance
-  })
-  mockInstance.addAfterHook = jest.fn((fn) => {
-    return mockInstance
-  })
-
-  jest.mock('@restqa/plugins', () => {
-    return function () {
-      return mockInstance
-    }
-  }, { virtual: true })
 })
 
 describe('#index', () => {
+  test('get name', () => {
+    const Plugin = require('./index')
+    expect(Plugin.name).toBe('faker')
+  })
+
   test('Add Given steps to the plugin', () => {
-    require('./index')
-    expect(mockInstance.addGivenStep).toHaveBeenCalledTimes(require('./steps/1-given').length)
+    const Plugin = require('./index')
+    expect(Plugin.steps.given).toHaveLength(require('./steps/1-given').length)
   })
 
-  test('Add state', () => {
-    const faker = require('faker')
-    jest.spyOn(faker, 'fake')
+  describe('Hooks', () => {
+    test('hooks change locale but not fake value has been generated', () => {
+      const faker = require('faker')
+      const spy = jest.spyOn(faker, 'fake')
 
-    require('./index')
-    expect(mockInstance.addState).toHaveBeenCalledTimes(2)
-    expect(mockInstance.addState.mock.calls[0][0]).toBe('results')
-    expect(mockInstance.addState.mock.calls[0][1]).toEqual([])
-    expect(mockInstance.addState.mock.calls[1][0]).toBe('setLocale')
+      const Plugin = require('./index')
 
-    const setLocale = mockInstance.addState.mock.calls[1][1]
-
-    expect(faker.locale).toBe('en')
-    expect(() => {
-      setLocale('ht')
-    }).toThrow('The locale "ht" is not available please use the list from: https://github.com/Marak/faker.js#localization')
-
-    expect(() => {
-      setLocale('fr')
-    }).not.toThrow()
-
-    expect(faker.locale).toBe('fr')
-  })
-
-  describe('Add BeforeHook', () => {
-    test('throw an error if the faker property is invalid (prefix: xxx)', () => {
       const $this = {
         attach: jest.fn(),
-        faker: {
-          results: []
-        },
         data: {
           addProcessor: jest.fn()
+        },
+        getConfig: () => {
+          return {
+          }
         }
       }
-      mockInstance.getConfig.mockReturnValue({ prefix: 'xxx' })
-      mockInstance.addBeforeHook = jest.fn((fn) => {
-        fn.call($this, { name: 'scenario name' })
-        return mockInstance
-      })
 
-      require('./index')
+      Plugin.hooks.before.call($this)
+      Plugin.hooks.after.call($this)
+
+      expect($this.faker.result).not.toBeUndefined()
+      expect($this.faker.get).not.toBeUndefined()
+      expect($this.faker.setLocale).not.toBeUndefined()
+
+      expect(spy).not.toHaveBeenCalled()
+
+      expect(faker.locale).toBe('en')
+      expect(() => {
+        $this.faker.setLocale('ht')
+      }).toThrow('The locale "ht" is not available please use the list from: https://github.com/Marak/faker.js#localization')
+
+      expect(() => {
+        $this.faker.setLocale('fr')
+      }).not.toThrow()
+
+      expect(faker.locale).toBe('fr')
+      expect($this.attach).not.toHaveBeenCalled()
+    })
+
+    test('hooks change locale and fake value has been generated', () => {
+      const faker = require('faker')
+      const spy = jest.spyOn(faker, 'fake')
+
+      const Plugin = require('./index')
+
+      const $this = {
+        attach: jest.fn(),
+        data: {
+          addProcessor: jest.fn()
+        },
+        getConfig: () => {
+          return {
+          }
+        }
+      }
+
+      Plugin.hooks.before.call($this)
+
+      const result1 = $this.faker.get('name.firstName')
+      const result2 = $this.faker.get('name.lastName')
+
+      Plugin.hooks.after.call($this)
+
+      expect($this.faker.result).not.toBeUndefined()
+      expect($this.faker.get).not.toBeUndefined()
+      expect($this.faker.setLocale).not.toBeUndefined()
+
+      expect(spy).toHaveBeenCalledTimes(2)
+
+      expect(faker.locale).toBe('en')
+      expect(() => {
+        $this.faker.setLocale('ht')
+      }).toThrow('The locale "ht" is not available please use the list from: https://github.com/Marak/faker.js#localization')
+
+      expect(() => {
+        $this.faker.setLocale('fr')
+      }).not.toThrow()
+
+      expect(faker.locale).toBe('fr')
+      expect(result1).toEqual(spy.mock.results[0].value)
+      expect(result2).toEqual(spy.mock.results[1].value)
+      const expectedMessage = `
+During the scenario faker has generated 2 values for you
+  - name.firstName: ${spy.mock.results[0].value}
+  - name.lastName: ${spy.mock.results[1].value}
+      `.trim()
+      expect($this.attach).toHaveBeenCalled()
+      expect($this.attach.mock.calls[0][0]).toEqual(expectedMessage)
+    })
+
+    test('throw an error if the faker property is invalid (prefix: xxx)', () => {
+      const Plugin = require('./index')
+
+      const $this = {
+        attach: jest.fn(),
+        data: {
+          addProcessor: jest.fn()
+        },
+        getConfig: () => {
+          return {
+            prefix: 'xxx'
+          }
+        }
+      }
+
+      Plugin.hooks.before.call($this)
 
       expect($this.data.addProcessor).toHaveBeenCalled()
       expect($this.data.addProcessor.mock.calls[0][0]).toEqual('xxx')
@@ -81,119 +130,86 @@ describe('#index', () => {
     })
 
     test('Get data when its generated from faker (prefix: faker (default))', () => {
-      const $this = {
-        attach: jest.fn(),
-        faker: {
-          results: []
-        },
-        data: {
-          addProcessor: jest.fn()
-        }
-      }
-      mockInstance.addBeforeHook = jest.fn((fn) => {
-        fn.call($this, { name: 'scenario name' })
-        return mockInstance
-      })
-
       const faker = require('faker')
       const spy = jest.spyOn(faker, 'fake')
 
-      require('./index')
+      const Plugin = require('./index')
+
+      const $this = {
+        attach: jest.fn(),
+        data: {
+          addProcessor: jest.fn()
+        },
+        getConfig: () => {
+          return {
+          }
+        }
+      }
+
+      Plugin.hooks.before.call($this)
 
       expect($this.data.addProcessor).toHaveBeenCalled()
       expect($this.data.addProcessor.mock.calls[0][0]).toEqual('faker')
       const processor = $this.data.addProcessor.mock.calls[0][1]
       const result = processor('music.genre')
-      expect(spy).toHaveBeenCalled()
-      const expectedMusicGenre = spy.mock.results[0].value
-      expect(result).toBe(expectedMusicGenre)
-      expect($this.faker.results).toEqual([{
-        property: 'music.genre',
-        value: expectedMusicGenre
-      }])
+      Plugin.hooks.after.call($this)
+
+      expect(result).toBe(spy.mock.results[0].value)
+      expect($this.faker.result).not.toBeUndefined()
+      expect($this.faker.get).not.toBeUndefined()
+      expect($this.faker.setLocale).not.toBeUndefined()
+
+      expect(spy).toHaveBeenCalledTimes(1)
+
+      const expectedMessage = `
+During the scenario faker has generated 1 values for you
+  - music.genre: ${spy.mock.results[0].value}
+      `.trim()
+      expect($this.attach).toHaveBeenCalled()
+      expect($this.attach.mock.calls[0][0]).toEqual(expectedMessage)
     })
 
     test('Get data when its generated from faker (prefix: _f, locale: es)', () => {
-      const $this = {
-        attach: jest.fn(),
-        faker: {
-          results: []
-        },
-        data: {
-          addProcessor: jest.fn()
-        }
-      }
-      mockInstance.getConfig.mockReturnValue({ prefix: '_f', locale: 'es' })
-      mockInstance.addBeforeHook = jest.fn((fn) => {
-        fn.call($this, { name: 'scenario name' })
-        return mockInstance
-      })
-
       const faker = require('faker')
       const spy = jest.spyOn(faker, 'fake')
 
-      require('./index')
+      const Plugin = require('./index')
+
+      const $this = {
+        attach: jest.fn(),
+        data: {
+          addProcessor: jest.fn()
+        },
+        getConfig: () => {
+          return {
+            locale: 'es',
+            prefix: '_f'
+          }
+        }
+      }
+
+      Plugin.hooks.before.call($this)
 
       expect($this.data.addProcessor).toHaveBeenCalled()
       expect($this.data.addProcessor.mock.calls[0][0]).toEqual('_f')
       const processor = $this.data.addProcessor.mock.calls[0][1]
       const result = processor('music.genre')
-      expect(spy).toHaveBeenCalled()
-      const expectedMusicGenre = spy.mock.results[0].value
-      expect(result).toBe(expectedMusicGenre)
-      expect($this.faker.results).toEqual([{
-        property: 'music.genre',
-        value: expectedMusicGenre
-      }])
-      expect(faker.locale).toBe('es')
-    })
-  })
+      expect(result).toBe(spy.mock.results[0].value)
+      Plugin.hooks.after.call($this)
 
-  describe('Add AfterHook', () => {
-    test('Do not attach the faker message if no faker has been generated during the scenario', () => {
-      const $this = {
-        attach: jest.fn(),
-        faker: {
-          results: []
-        }
-      }
-      mockInstance.addAfterHook = jest.fn((fn) => {
-        fn.call($this, { name: 'scenario name' })
-        return mockInstance
-      })
+      expect($this.faker.result).not.toBeUndefined()
+      expect($this.faker.get).not.toBeUndefined()
+      expect($this.faker.setLocale).not.toBeUndefined()
 
-      require('./index')
-
-      expect($this.attach).not.toHaveBeenCalled()
-    })
-
-    test('Attach the faker message if some faker has been generated during the scenario', () => {
-      const $this = {
-        attach: jest.fn(),
-        faker: {
-          results: [{
-            property: 'name.firstName',
-            value: 'Homer'
-          }, {
-            property: 'name.lastName',
-            value: 'Simpson'
-          }]
-        }
-      }
-      mockInstance.addAfterHook = jest.fn((fn) => {
-        fn.call($this, { name: 'scenario name' })
-        return mockInstance
-      })
-
-      require('./index')
+      expect(spy).toHaveBeenCalledTimes(1)
 
       const expectedMessage = `
-During the scenario faker has generated 2 values for you
-  - name.firstName: Homer
-  - name.lastName: Simpson
+During the scenario faker has generated 1 values for you
+  - music.genre: ${spy.mock.results[0].value}
       `.trim()
       expect($this.attach).toHaveBeenCalled()
       expect($this.attach.mock.calls[0][0]).toEqual(expectedMessage)
+      expect(faker.locale).toBe('es')
     })
   })
 })

@@ -1,6 +1,6 @@
 {
   "name": "@restqa/faker-plugin",
-  "main": "src/faker-plugin/index.js",
+  "main": "src/index.js",
   "description": "Extension to extends RestQA capability in order Generate fake data for test scenarios",
   "version": "0.2.0",
   "keywords": [
@@ -18,7 +18,8 @@
     "lint": "eslint src",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch --coverage"
+    "test:watch": "jest --watch --coverage",
+    "example": "cucumber-js --require ./example/setup.js --publish-quiet --fail-fast ./example/features"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^7.3.1",
@@ -33,6 +34,7 @@
     "jsdoc-to-markdown": "^6.0.1"
   },
   "dependencies": {
+    "@restqa/plugin": "0.0.2",
     "faker": "^5.5.3"
   },
   "eslintConfig": {
